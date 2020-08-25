@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.postboard.service.impl.PostMapper">
+	
+	<resultMap id="postboard" type="egovframework.example.postboard.service.PostBoardVO">
+		<result property="postNo" column="post_no"/>
+		<result property="postTitle" column="post_title"/>
+		<result property="postText" column="post_text"/>
+		<result property="postViews" column="post_views"/>
+		<result property="postInsert" column="post_insert"/>
+		<result property="postInsdt" column="post_insdt"/>
+		<result property="originNo" column="origin_no"/>
+		<result property="groupOrd" column="group_ord"/>
+		<result property="groupLayer" column="group_layer"/>
+	</resultMap>
+	
+	<insert id="insertPost" parameterType="egovframework.example.postboard.service.PostBoardVO">
+		INSERT INTO POST_BOARD( POST_NO,
+								POST_TITLE, 
+								POST_TEXT,
+								POST_VIEWS, 
+								POST_INSERT, 
+								POST_INSDT,
+								ORIGIN_NO,
+								GROUP_ORD,
+								GROUP_LAYER)
+		VALUES( SEQUENCE1.NEXTVAL,
+				#{postTitle},
+				#{postText},
+				0,
+				#{postInsert},
+				sysdate,
+				'',
+				0,
+				0)
+	</insert>
+	
+	<insert id="insertReply" parameterType="egovframework.example.postboard.service.PostBoardVO">
+		INSERT INTO POST_BOARD( POST_NO,
+								POST_TITLE, 
+								POST_TEXT,
+								POST_VIEWS, 
+								POST_INSERT, 
+								POST_INSDT,
+								ORIGIN_NO,
+								GROUP_ORD,
+								GROUP_LAYER)
+		VALUES( SEQUENCE1.NEXTVAL,
+				#{postTitle},
+				#{postText},
+				0,
+				#{postInsert},
+				sysdate,
+				#{postNo},
+				(select count(1) from post_board where ORIGIN_NO = #{postNo}) + 1,
+				0)
+	</insert>
+	
+	<!-- 조회수 cnt -->
+	<update id="updateCnt">
+		UPDATE POST_BOARD
+		SET POST_VIEWS = POST_VIEWS + 1
+		WHERE POST_NO = #{postNo}
+	</update>
+	
+	<update id="updatePost">
+		UPDATE POST_BOARD
+		SET POST_TEXT = #{postText}
+		WHERE POST_NO = #{postNo}
+	</update>
+	
+	<delete id="deletePost">
+		DELETE FROM POST_BOARD
+		WHERE POST_NO = #{postNo}
+	</delete>
+	
+	<!-- 답글 수 cnt -->
+	<select id="getReplyCnt" resultType="int">
+      SELECT COUNT(1) AS CNT
+      FROM POST_BOARD
+      WHERE ORIGIN_NO = #{postNo}
+	</select>
+	
+	<select id="selectReplyList" parameterType="egovframework.example.postboard.service.PostBoardVO"  resultMap="postboard">
+		SELECT POST_NO, POST_TITLE, POST_TEXT, POST_INSERT, POST_INSDT, ORIGIN_NO, GROUP_ORD
+		FROM POST_BOARD
+		WHERE ORIGIN_NO = #{postNo}
+	</select>
+
+	<select id="selectPost" resultMap="postboard">
+		SELECT POST_NO, POST_TITLE, POST_TEXT, POST_INSERT, POST_INSDT, ORIGIN_NO, GROUP_ORD
+		FROM POST_BOARD
+		WHERE POST_NO = #{postNo} 
+	</select>
+
+	<select id="selectPostList" parameterType="egovframework.example.postboard.service.PostBoardVO"  resultMap="postboard">
+		SELECT * FROM 
+		(
+		SELECT ROWNUM as RN, A.*
+		FROM ( 	SELECT Z.POST_NO, Z.POST_TITLE, Z.POST_TEXT, Z.POST_VIEWS, Z.POST_INSERT, Z.POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD, 
+						(SELECT COUNT(1) FROM POST_BOARD WHERE ORIGIN_NO = Z.POST_NO) AS CNT
+				FROM POST_BOARD Z
+				WHERE 1=1
+					AND ORIGIN_NO IS NULL
+				<if test="searchKeyword != null and searchKeyword != ''">
+			        <choose>
+			            <when test="searchCondition == 0">
+							AND	UPPER(POST_TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+							OR	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+							OR	UPPER(POST_INSERT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+			            <when test="searchCondition == 1">
+							AND	UPPER(POST_TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+						<when test="searchCondition == 2">
+							AND	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+						<when test="searchCondition == 3">
+							AND	UPPER(POST_INSERT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+					</choose>
+				</if>
+				ORDER BY POST_INSDT DESC
+				) A
+		) B
+		WHERE B.RN BETWEEN #{firstIndex} AND #{lastIndex}
+		ORDER BY B.RN ASC
+
+	</select>
+	
+	<select id="selectPostListTotCnt"  resultType="int">
+		<!-- SELECT COUNT(1)
+		FROM ( 	SELECT Z.POST_NO, Z.POST_TITLE, Z.POST_TEXT, Z.POST_VIEWS, Z.POST_INSERT, TO_CHAR(Z.POST_INSDT,'YYYY-MM-DD')as POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD ,
+						(SELECT COUNT(1) FROM POST_BOARD WHERE ORIGIN_NO = Z.POST_NO) AS CNT
+				FROM POST_BOARD Z
+				WHERE 1=1
+ -->
+		SELECT COUNT(1)
+		FROM (SELECT POST_NO, POST_TITLE, POST_TEXT, POST_VIEWS, POST_INSERT, TO_CHAR(POST_INSDT,'YYYY-MM-DD')as POST_INSDT, ORIGIN_NO, GROUP_ORD,
+				(SELECT COUNT(1) FROM POST_BOARD WHERE ORIGIN_NO IS NULL) AS CNT	
+				FROM POST_BOARD 
+        		WHERE ORIGIN_NO IS NULL)			
+        WHERE 1 = 1
+				<if test="searchKeyword != null and searchKeyword != ''">
+			        <choose>
+			            <when test="searchCondition == 0">
+							AND	UPPER(POST_TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+							OR	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+							OR	UPPER(POST_INSERT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+			            <when test="searchCondition == 1">
+							AND	UPPER(POST_TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+						<when test="searchCondition == 2">
+							AND	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+						<when test="searchCondition == 3">
+							AND	UPPER(POST_INSERT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+						</when>
+					</choose>
+				</if>
+				<!-- ) --> 
+	</select>	
+
+</mapper>

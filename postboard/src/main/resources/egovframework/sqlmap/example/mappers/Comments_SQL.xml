@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="egovframework.example.postboard.service.impl.CommentsMapper">
+
+	<resultMap id="comments" type="egovframework.example.postboard.service.CommentsVO">
+		<result property="cno" column="cno" />
+		<result property="postNo" column="post_no" />
+		<result property="writer" column="writer" />
+		<result property="content" column="content" />
+		<result property="regDate" column="reg_date" />
+	</resultMap>
+	
+	<insert id="insertComments" parameterType="egovframework.example.postboard.service.CommentsVO">
+		INSERT INTO COMMENTS (CNO, POST_NO, WRITER, CONTENT, REG_DATE)
+		VALUES (CMT_SEQ.NEXTVAL, #{postNo}, #{writer}, #{content}, SYSDATE)
+	</insert>
+	
+	<select id="selectCommentsList" parameterType="egovframework.example.postboard.service.CommentsVO" resultMap="comments">
+		SELECT CNO, POST_NO, WRITER, CONTENT, REG_DATE 
+		FROM COMMENTS 
+		WHERE POST_NO = #{postNo}
+		ORDER BY REG_DATE DESC
+	</select>
+</mapper>
