@@ -55,7 +55,7 @@
 		//페이징 처리 함수
 			paging = function(pageToMove){
 				var pageNo = pageToMove;
-				$("#pageIndex").val(pageNo);4
+				$("#pageIndex").val(pageNo);
 				list.action = "./pBoardList.do";
 				list.submit();
 				};
@@ -270,7 +270,7 @@
 										<c:if test="${result.cnt>0}"><a href="javascript:reply('${result.postNo}')" >[${result.cnt}]</a></c:if>
 									</span>
 								</td>
-								<td align="left"><c:out value="${result.postText }" /></td>
+								<td align="left">${fn:replace((fn:replace((fn:replace(fn:replace(result.postText , '&lt;', ''), '&gt;', '')), 'p','')),'/','')}</td>
 								<td align="center"><c:out value= "${result.postViews }" /></td>
 								<td align="center"><c:out value= "${result.postInsert }" /></td>
 								<td align="center"><c:out value= "${result.formattedDate }" /></td>
@@ -283,7 +283,16 @@
 			</div> <br>
 			<!--// List -->
 	
-			
+	<!-- c:out value="${result.postText }" escapeXml="false"/> -->
+	<!-- 
+	[DB] - data type : blob => post_text  : &lt;p&gt;제목&lt;/p&gt;
+	[JSP] => <c:out value="${p.post_text }" escapeXml="false"/>
+	[view] => <p>222공지</p> 
+	 -->
+	
+	
+	
+	
 			<!-- 검색창, 등록 버튼 -->
 			<div id="" align="right">
 			 <div style="width:60%">    

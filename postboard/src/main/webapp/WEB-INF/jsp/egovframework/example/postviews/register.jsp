@@ -25,11 +25,14 @@ $(document).ready(function(){
 	
 
 	$("#writeBtn").on("click",function(){
+				
+		var postTitle = $("#postTitle").val();
+		var postText = tinymce.activeEditor.getContent(); //
+		var postInsert = $("#postInsert").val();
+		$("#postText").val(postText);
 		
 		var frm = $("#frm").serialize();
-		var postTitle = $("#postTitle").val();
-		var postText = tinymce.activeEditor.getContent(); //$("#postText").val();
-		var postInsert = $("#postInsert").val();
+		
 		
 			//유효성 검사 후 등록	
 			if(postTitle == ""){
@@ -37,7 +40,7 @@ $(document).ready(function(){
 				$("#postTitle").focus();
 			} else if (postText == ""){
 				alert("내용을 입력해주세요.");
-				$("postText").focus();			
+				$("#postText").focus();			
 			} else if (postInsert == ""){
 				alert("작성자를 입력해주세요.");
 				$("#postInsert").focus();

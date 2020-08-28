@@ -72,7 +72,6 @@ public class PostBoardVO extends PostBoardDefaultVO {
 		this.postTitle = postTitle;
 	}
 
-
 	public String getPostText() {
 		return postText;
 	}
@@ -118,6 +117,9 @@ public class PostBoardVO extends PostBoardDefaultVO {
 	}
 	
 	public String getFormattedDate() {
+		if(formattedDate == null || "".equals(formattedDate)) {
+			return "";
+		} 
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy/MM/dd");
 		//format(): 날짜를 원하는 형태의 문자열로 반환
 		//parse(): 문자열 형태의 날짜를 원하는 대로 반환

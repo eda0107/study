@@ -12,10 +12,6 @@
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
 <meta charset="UTF-8">
 <title>게시판 개발</title>
-<script>
-
-
-</script>
 
 </head>
 <body>

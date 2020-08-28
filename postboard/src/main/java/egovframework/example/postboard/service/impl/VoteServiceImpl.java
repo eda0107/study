@@ -15,6 +15,27 @@ public class VoteServiceImpl extends EgovAbstractServiceImpl implements VoteServ
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PostBoardServiceImpl.class);
 	
+	@Resource(name="VoteMapper")
+	private VoteMapper voteDAO;
 
+	@Override
+	public void insertVote(VoteVO vvo) throws Exception {
+		voteDAO.insertVote(vvo);
+	}
+
+	@Override
+	public int selectLikeCnt(VoteVO vvo) throws Exception {
+		return voteDAO.selectLikeCnt(vvo);
+	}
+
+	@Override
+	public int selectHateCnt(VoteVO vvo) throws Exception {
+		return voteDAO.selectHateCnt(vvo);
+	}
+
+	@Override
+	public int selectVoteCnt(VoteVO vvo) throws Exception {
+		return voteDAO.selectVoteCnt(vvo);
+	}
 	
 }

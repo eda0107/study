@@ -10,6 +10,14 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css " />">
 <script src="<c:url value="/resources/js/jquery-3.5.1.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+	tinymce.init({
+    	selector: 'textarea#postText',
+    	menubar: false
+  });
+
+</script>
 <meta charset="UTF-8">
 <title>게시판 개발</title>
 <script>
@@ -17,10 +25,12 @@ $(document).ready(function(){
 	
 	$("#replyBtn").on("click",function(){
 		
-		var frm = $("#frm").serialize();
+		
 		var postTitle = $("#postTitle").val();
-		var postText = $("#postText").val();
+		var postText = tinymce.activeEditor.getContent();//$("#postText").val();
 		var postInsert = $("#postInsert").val();
+		$("#postText").val(postText);
+		var frm = $("#frm").serialize();
 		
 			//유효성 검사 후 등록
 			if(postTitle == ""){
@@ -28,7 +38,7 @@ $(document).ready(function(){
 				$("#postTitle").focus();
 			} else if (postText == ""){
 				alert("내용을 입력해주세요.");
-				$("postText").focus();			
+				$("#postText").focus();			
 			} else if (postInsert == ""){
 				alert("작성자를 입력해주세요.");
 				$("#postInsert").focus();
@@ -72,7 +82,7 @@ $(document).ready(function(){
 			<br>
 			<div class="mb-3">
 				<label for="postText">내용</label> 
-				<textarea class="form-control" rows="5" name="postText" id="postText" placeholder="내용을 입력해 주세요"></textarea>
+				<textarea class="form-control" rows="5" name="postText" id="postText" ></textarea>
 			</div>
 			<br>
 			<div class="mb-3">

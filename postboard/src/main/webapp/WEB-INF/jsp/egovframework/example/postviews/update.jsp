@@ -193,15 +193,19 @@
 
 			<div class="board_info_box">
 				<span class="board_date"><c:out	value="${p.postInsert}" /></span> / 
-				<span class="board_date"><c:out	value="${p.postInsdt}" /></span>
+				<span class="board_date"><c:out	value="${p.formattedDate}" /></span>
 			</div>
 
-			<div class="board_content">${p.postText}</div>
+			<div class="board_content"><!-- c:out value="${p.postText}" escapeXml="false"/> -->
+			${fn:replace((fn:replace((fn:replace(fn:replace(p.postText, '&lt;', ''), '&gt;', '')), 'p','')),'/','')}</div>
 		</div>
 
 		<br>
-		<div align="right">
+		<!-- 게시글 조회일 경우 좋아요, 싫어요 버튼 -->
+		<jsp:include page="votePost.jsp" />
+		<!-- /게시글 조회일 경우 좋아요, 싫어요 버튼 -->
 		<!-- 게시글 조회일 경우 답변, 수정, 삭제, 목록 버튼//답변 조회일 경우 수정, 목록 버튼만 구현 -->
+		<div align="right">
 			<c:if test="${p.originNo eq ''}" >  	
 				<button type="button" class="btn btn-info" id="replyBtn">답변</button>
 				<button type="button" class="btn btn-info" id="deleteBtn">삭제</button>
@@ -209,6 +213,7 @@
 				<button type="button" class="btn btn-info" id="editBtn">수정</button>
 				<button type="button" class="btn btn-info" id="listBtn">목록</button>
 		</div>
+		<!-- /게시글 조회일 경우 답변, 수정, 삭제, 목록 버튼//답변 조회일 경우 수정, 목록 버튼만 구현  -->
 		<!-- 게시글 조회일 경우 답글 list 출력 -->
 		<c:if test="${!empty replyList}">
 			<div style="padding:30px 10px 10px 10px;" class="mb-3" id="callReplyTable">
@@ -219,7 +224,7 @@
 							<td align="center" style="width: 75%;">
 							<a href="javascript:call('${repResult.postNo }')" ><c:out value="${repResult.postTitle }" /></a></td>
 							<td align="right"><c:out value="${repResult.postInsert }" /></td>
-							<td align="right"><c:out value="${repResult.postInsdt }" /></td>
+							<td align="right"><c:out value="${repResult.formattedDate }" /></td>
 						</tr>
 						</c:forEach>		
 					</table>

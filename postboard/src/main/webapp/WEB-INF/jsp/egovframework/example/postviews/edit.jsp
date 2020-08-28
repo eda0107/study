@@ -9,7 +9,15 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css " />">
 <script src="<c:url value="/resources/js/jquery-3.5.1.min.js" />"></script>
-<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script><script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+  tinymce.init({
+    selector: 'textarea#postText',
+    menubar: false
+  });
+</script>
+
 <meta charset="UTF-8">
 <title>게시판 개발</title>
 <script type="text/javascript">
@@ -49,7 +57,7 @@
 		<form name="frm" id="frm" method="post">
 			<div class="mb-3">
 				<label for="postTitle">제목</label> 
-				<input type="hidden" id="postNo" name="postNo" value="${p.postNo}" > 
+				<input type="text" id="postNo" name="postNo" value="${p.postNo}" > 
 				<input type="text" class="form-control" name="postTitle" id="postTitle" value="${p.postTitle}" readonly>
 			</div>
 			<br>
