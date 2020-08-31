@@ -24,20 +24,29 @@
 	$(document).ready(function() {
 			$("#editBtn").on("click", function() {
 				
+				
+				var postText = tinymce.activeEditor.getContent();
+				$("#postText").val(postText);
+				
 				var $frm = $("#frm").serialize();
 				
-				$.ajax({
-					 type : "POST",
-					 url : "./update.do",
-				     data : $frm,
-				     success : function(data){
-				    	 alert("수정 성공");
-				    	 window.location.href = "./pBoardList.do";
-				        },
-			      	 error : function(){
-			          	 alert('통신 실패');
-				       	}
-				});
+				if(postText == ""){
+					alert("수정할 내용을 입력하세요.")
+				} else{
+					$.ajax({
+						 type : "POST",
+						 url : "./update.do",
+					     data : $frm,
+					     success : function(data){
+					    	 alert("수정 성공");
+					    	 window.location.href = "./pBoardList.do";
+					        },
+				      	 error : function(){
+				          	 alert('통신 실패');
+					       	}
+					});
+				}
+				
 
 		});
 
@@ -63,7 +72,7 @@
 			<br>
 			<div class="mb-3">
 				<label for="postText">내용</label>
-				<textarea class="form-control" rows="5" name="postText" id="postText" placeholder="수정할 내용을 입력해 주세요"></textarea>
+				<textarea class="form-control" rows="5" name="postText" id="postText"></textarea>
 			</div>
 			<br>
 			<div class="mb-3">

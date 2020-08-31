@@ -85,7 +85,7 @@
 								html +='<td></td>';
 								html +='<td></td>';
 								html +='<td align="left"><a href="#" class="update" data="' + data.replyList[i].postNo +'">' + data.replyList[i].postTitle + '</a></td>';
-								html +='<td align="left">' + data.replyList[i].postText + '</td>';
+								html +='<td align="left">' + data.replyList[i].blobPostText + '</td>';
 								html += '<td></td>';
 								html +='<td align="center">' + data.replyList[i].postInsert + '</td>';
 								html +='<td align="center">' + data.replyList[i].postInsdt + '</td>';
@@ -270,7 +270,7 @@
 										<c:if test="${result.cnt>0}"><a href="javascript:reply('${result.postNo}')" >[${result.cnt}]</a></c:if>
 									</span>
 								</td>
-								<td align="left">${fn:replace((fn:replace((fn:replace(fn:replace(result.postText , '&lt;', ''), '&gt;', '')), 'p','')),'/','')}</td>
+								<td align="left"><c:out value="${result.strPostText }" escapeXml="false"/></td>
 								<td align="center"><c:out value= "${result.postViews }" /></td>
 								<td align="center"><c:out value= "${result.postInsert }" /></td>
 								<td align="center"><c:out value= "${result.formattedDate }" /></td>

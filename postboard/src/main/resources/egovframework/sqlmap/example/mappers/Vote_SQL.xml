@@ -18,7 +18,7 @@
 	<select id="selectVoteCnt" parameterType="egovframework.example.postboard.service.VoteVO" resultType="int">
 		SELECT COUNT(1)
 		FROM VOTE
-		WHERE POST_NO = #{postNo} AND VOTE_YN IS NOT NULL
+		WHERE POST_NO = #{postNo} AND VOTE_YN = #{voteYn}
 		ORDER BY VOTE_DATE
 	</select>
 	

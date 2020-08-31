@@ -135,6 +135,7 @@
 			var writer = $("#writer").val();
 			var content = $("#content").val();
 			var regDate = $("#regDate").val();
+			
 			//var cmtFrm = $("#cmtFrm").serialize(); //왜 postNo가 null 처리되는지?
 				
 				//유효성 검사 후 등록
@@ -197,7 +198,10 @@
 			</div>
 
 			<div class="board_content"><!-- c:out value="${p.postText}" escapeXml="false"/> -->
-			${fn:replace((fn:replace((fn:replace(fn:replace(p.postText, '&lt;', ''), '&gt;', '')), 'p','')),'/','')}</div>
+			<%-- ${fn:replace((fn:replace((fn:replace(fn:replace(p.postText, '&lt;', ''), '&gt;', '')), 'p','')),'/','')} --%>
+			<c:out value="${p.strPostText}" escapeXml="false"/>
+			</div>
+			
 		</div>
 
 		<br>
@@ -240,7 +244,7 @@
 						<td align="center" style="width: 75%;">
 						<a href="javascript:call('${p.originNo }')"><c:out value="${originVO.postTitle }" /></a></td>
 						<td align="right"><c:out value="${originVO.postInsert }" /></td>
-						<td align="right"><c:out value="${originVO.postInsdt }" /></td>
+						<td align="right"><c:out value="${originVO.formattedDate }" /></td>
 					</tr>
 				</table>
 			</div>

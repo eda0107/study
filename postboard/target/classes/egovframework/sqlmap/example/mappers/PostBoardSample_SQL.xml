@@ -17,13 +17,13 @@
 	<!-- 게시글 등록 -->
 	<insert id="insertPost" parameterType="egovframework.example.postboard.service.PostBoardVO">
 		INSERT INTO POST_BOARD( POST_NO, POST_TITLE,POST_TEXT, POST_VIEWS, POST_INSERT, POST_INSDT, ORIGIN_NO, GROUP_ORD, GROUP_LAYER)
-		VALUES( SEQUENCE1.NEXTVAL, #{postTitle}, UTL_RAW.CAST_TO_RAW(#{postText}), 0, #{postInsert}, sysdate, '', 0, 0)
+		VALUES( SEQUENCE1.NEXTVAL, #{postTitle}, #{postText}, 0, #{postInsert}, sysdate, '', 0, 0)
 	</insert>
 	
 	<!-- 답글 등록 -->
 	<insert id="insertReply" parameterType="egovframework.example.postboard.service.PostBoardVO">
 		INSERT INTO POST_BOARD( POST_NO, POST_TITLE, POST_TEXT, POST_VIEWS, POST_INSERT, POST_INSDT, ORIGIN_NO, GROUP_ORD, GROUP_LAYER)
-		VALUES( SEQUENCE1.NEXTVAL, #{postTitle}, UTL_RAW.CAST_TO_RAW(#{postText}), 0, #{postInsert}, sysdate, #{postNo}, (select count(1) from post_board where ORIGIN_NO = #{postNo}) + 1, 0)
+		VALUES( SEQUENCE1.NEXTVAL, #{postTitle}, #{postText}, 0, #{postInsert}, sysdate, #{postNo}, (select count(1) from post_board where ORIGIN_NO = #{postNo}) + 1, 0)
 	</insert>
 	
 	<!-- 게시글 조회 cnt -->
@@ -34,9 +34,9 @@
 	</update>
 	
 	<!-- 게시글 수정 -->
-	<update id="updatePost">
+	<update id="updatePost" parameterType="egovframework.example.postboard.service.PostBoardVO">
 		UPDATE POST_BOARD
-		SET POST_TEXT = utl_raw.cast_to_raw('#{postText}')
+		SET POST_TEXT = utl_raw.cast_to_raw(#{postText})
 		WHERE POST_NO = #{postNo}
 	</update>
 	
@@ -62,7 +62,7 @@
 
 	<!-- 게시글 상세 조회 -->
 	<select id="selectPost" resultMap="postboard">
-		SELECT POST_NO, POST_TITLE, UTL_RAW.CAST_TO_VARCHAR2(POST_TEXT) as POST_TEXT, POST_INSERT, POST_INSDT, ORIGIN_NO, GROUP_ORD
+		SELECT POST_NO, POST_TITLE, POST_TEXT, POST_INSERT, POST_INSDT, ORIGIN_NO, GROUP_ORD
 		FROM POST_BOARD
 		WHERE POST_NO = #{postNo} 
 	</select>
@@ -72,7 +72,7 @@
 		SELECT * FROM 
 		(
 		SELECT ROWNUM as RN, A.*
-		FROM ( 	SELECT Z.POST_NO, Z.POST_TITLE, UTL_RAW.CAST_TO_VARCHAR2(Z.POST_TEXT) AS POST_TEXT, Z.POST_VIEWS, Z.POST_INSERT, Z.POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD, 
+		FROM ( 	SELECT Z.POST_NO, Z.POST_TITLE, Z.POST_TEXT, Z.POST_VIEWS, Z.POST_INSERT, Z.POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD, 
 						(SELECT COUNT(1) FROM POST_BOARD WHERE ORIGIN_NO = Z.POST_NO) AS CNT
 				FROM POST_BOARD Z
 				WHERE 1=1

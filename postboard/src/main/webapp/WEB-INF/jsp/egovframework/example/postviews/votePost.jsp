@@ -40,6 +40,21 @@
 					'voteYn' : voteYn
 				},
 				success : function(data){
+					$.ajax({
+						type : "POST",
+						url : "./selectVoteCnt.do",
+						data : {
+							'postNo' : postNo,
+							'voteYn' : voteYn
+						},
+						success : function(result){
+							alert(result.yCnt);
+						},
+						error : function(){
+							alert("error");
+						}
+						
+					})
 					alert("투표 완료");
 				},
 				error : function(){

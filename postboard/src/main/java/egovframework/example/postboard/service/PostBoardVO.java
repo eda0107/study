@@ -1,12 +1,10 @@
 package egovframework.example.postboard.service;
 
-import java.util.Date;
-import java.text.ParseException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import egovframework.example.postboard.web.PostBoardController;
+import org.springframework.util.StringUtils;
 
 
 public class PostBoardVO extends PostBoardDefaultVO {
@@ -21,7 +19,7 @@ public class PostBoardVO extends PostBoardDefaultVO {
 	private String postTitle;
 	
 	/** 글 내용 */
-	private String postText;
+	private byte[] postText;
 	
 	/** 글 조회수 */
 	private int postViews;
@@ -55,6 +53,9 @@ public class PostBoardVO extends PostBoardDefaultVO {
 	
 	private String formattedDate;
 
+	private String blobPostText;
+
+	private String strPostText;
 	
 	public String getPostNo() {
 		return postNo;
@@ -72,12 +73,34 @@ public class PostBoardVO extends PostBoardDefaultVO {
 		this.postTitle = postTitle;
 	}
 
-	public String getPostText() {
+	public byte[] getPostText() {
+		
 		return postText;
 	}
 
-	public void setPostText(String postText) {
+	public void setPostText(byte[] postText) {
 		this.postText = postText;
+	}
+	
+	public String getBlobPostText() throws Exception {
+		String strHTML = this.blobPostText;
+		strHTML = StringUtils.replace(strHTML, "[%", "<%");
+		strHTML = StringUtils.replace(strHTML, "%]", "%>");
+		strHTML = StringUtils.replace(strHTML, "amp;", "");		
+		strHTML = StringUtils.replace(strHTML, "&amp;", "&");
+		strHTML = StringUtils.replace(strHTML, "&lt;", "<");
+		strHTML = StringUtils.replace(strHTML,"&gt;", ">");
+		strHTML = StringUtils.replace(strHTML,"&quot;", "\"");
+		strHTML = StringUtils.replace(strHTML,"&apos;", "\'");
+		strHTML = StringUtils.replace(strHTML,"&nbsp;", "");
+		strHTML = StringUtils.replace(strHTML,"&#39;", "\'");		
+		this.blobPostText = strHTML;
+		
+		return this.blobPostText;
+	}
+
+	public void setBlobPostText(String blobPostText) {
+		this.blobPostText = blobPostText;
 	}
 
 	public int getPostViews() {
@@ -117,7 +140,7 @@ public class PostBoardVO extends PostBoardDefaultVO {
 	}
 	
 	public String getFormattedDate() {
-		if(formattedDate == null || "".equals(formattedDate)) {
+		if(postInsdt == null || "".equals(formattedDate)) {
 			return "";
 		} 
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -183,6 +206,18 @@ public class PostBoardVO extends PostBoardDefaultVO {
 
 	public void setCnt(String cnt) {
 		this.cnt = cnt;
+	}
+
+	public String getStrPostText() throws UnsupportedEncodingException {
+		if(this.postText != null && this.postText.length > 0) {
+			return new String(this.postText, "UTF-8"); 
+		}else {
+			return "";
+		}
+	}
+
+	public void setStrPostText(String strPostText) {
+		this.strPostText = strPostText;
 	}
 
 	

@@ -14,7 +14,7 @@
 
 <script>
   tinymce.init({
-    selector: 'textarea#postText',
+    selector: 'textarea#blobPostText',
     menubar: false
   });
 </script>
@@ -29,7 +29,7 @@ $(document).ready(function(){
 		var postTitle = $("#postTitle").val();
 		var postText = tinymce.activeEditor.getContent(); //
 		var postInsert = $("#postInsert").val();
-		$("#postText").val(postText);
+		$("#blobPostText").val(postText);
 		
 		var frm = $("#frm").serialize();
 		
@@ -82,7 +82,7 @@ $(document).ready(function(){
 			<br>
 			<div class="mb-3">
 				<label for="postText">내용</label> 
-				<textarea class="form-control" rows="5" name="postText" id="postText"></textarea>
+				<textarea class="form-control" rows="5" name="blobPostText" id="blobPostText"></textarea>
 			</div>
 			<br>
 			<div class="mb-3">

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -72,6 +73,11 @@ public class PostBoardController {
 		vo.setRecordCountPerPage(paginationInfo.getRecordCountPerPage()); // 한 페이지당 게시되는 게시물 건 수
 
 		List<PostBoardVO> postList = postService.selectPostList(vo);
+		
+/*		for(PostBoardVO postBoardVO : postList) {
+			System.out.println(new String(postBoardVO.getPostText()));
+			System.out.println(postBoardVO.getStrPostText());
+		}*/
 		int totCnt = postService.selectPostListTotCnt(vo);// ROWNUM을 쓰지 않고 글 전체 목록에 번호를 주는 것, Service를 이용
 		paginationInfo.setTotalRecordCount(totCnt); // totalRecordCount: 전체 게시물 갯수(끝 페이지의 번호 계산을 위해서 必)
 
@@ -91,6 +97,7 @@ public class PostBoardController {
 	@RequestMapping(value = "/register.do")
 	public String register(@ModelAttribute("PostBoardVO") PostBoardVO vo, BindingResult bindingResult, Model model,
 			SessionStatus status) throws Exception {
+		vo.setPostText(vo.getBlobPostText().getBytes());
 		postService.insertPost(vo);
 		return "jsonView";
 		// return "redirect:/pBoardList.do";
@@ -259,8 +266,14 @@ public class PostBoardController {
 	@RequestMapping(value="/selectVoteCnt.do")
 	public String selectVoteCnt(@ModelAttribute("VoteVO") VoteVO vvo, PostBoardVO vo, Model model) throws Exception {
 		vvo.setPostNo(vo.getPostNo());
-		int vCnt = voteService.selectVoteCnt(vvo);
 		
+		vvo.setVoteYn("Y");
+		int yCnt = voteService.selectLikeCnt(vvo);
+		model.addAttribute("yCnt", yCnt);
+		
+		vvo.setVoteYn("N");
+		int nCnt = voteService.selectHateCnt(vvo);
+		model.addAttribute("nCnt", nCnt);
 		
 		return "jsonView";
 		
