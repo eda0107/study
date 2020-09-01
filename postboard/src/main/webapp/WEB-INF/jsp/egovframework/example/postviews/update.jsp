@@ -55,7 +55,7 @@
 	$(document).ready(function(){
 		
 		 /* $("#callCommentsList").load("./commentsList.do ", {'postNo' : $('#postNo').val()},  function(){
-			include 대신에 사용해도 됨 
+			include jsp 대신에 사용해도 됨 
 		 });  */
 		 
 		 

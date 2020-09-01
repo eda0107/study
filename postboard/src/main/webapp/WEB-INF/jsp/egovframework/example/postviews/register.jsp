@@ -40,7 +40,7 @@ $(document).ready(function(){
 				$("#postTitle").focus();
 			} else if (postText == ""){
 				alert("내용을 입력해주세요.");
-				$("#postText").focus();			
+				$("#blobPostText").focus();			
 			} else if (postInsert == ""){
 				alert("작성자를 입력해주세요.");
 				$("#postInsert").focus();

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -122,10 +121,22 @@ public class PostBoardController {
 		PostBoardVO p = postService.selectPost(vo);
 		model.addAttribute("p", p);
 
-		// 원글,답글일 때 로직 다르게 -> vo가 아니라 p를 가져와야함: p는 조회하면서 객체가 생성된 상태(=>postNo 값이 들어간 상태)
-		if ("".equals(p.getOriginNo())) { // 원글일때 => p.postNo는 有 p.originNo는 無
+		// 게시글,답글일 때 로직 다르게 -> vo가 아니라 p를 가져와야함: p는 조회하면서 객체가 생성된 상태(=>postNo 값이 들어간 상태)
+		if ("".equals(p.getOriginNo())) { // 게시글일때 => p.postNo는 有 p.originNo는 無
 			List<?> replyList = postService.selectReplyList(vo);
 			model.addAttribute("replyList", replyList);
+			
+			VoteVO vvo = new VoteVO();
+			vvo.setPostNo(p.getPostNo());
+			//좋아요  
+			vvo.setVoteYn("Y");
+			int yCnt = voteService.selectLikeCnt(vvo);
+			model.addAttribute("yCnt", yCnt);
+			//싫어요
+			vvo.setVoteYn("N");
+			int nCnt = voteService.selectHateCnt(vvo);
+			model.addAttribute("nCnt", nCnt);
+			
 		} else { // 답글일때(p.originNo가 있을 때)
 			PostBoardVO postBoardVO = new PostBoardVO(); // 객체 생성해서
 			postBoardVO.setPostNo(p.getOriginNo()); // 기존 p객체의 originNo를 새 객체 postNo에 꽂아준다 originNo=postNo로 title, text
@@ -257,7 +268,6 @@ public class PostBoardController {
 	@RequestMapping(value = "/votePost.do")
 	public String votePost(VoteVO vvo, PostBoardVO vo, BindingResult bindingResult, Model model) throws Exception {
 		vvo.setPostNo(vo.getPostNo());
-		// vvo.setVoteKey(vvo.getVoteKey());
 		voteService.insertVote(vvo);
 		return "jsonView";
 	}
@@ -265,16 +275,16 @@ public class PostBoardController {
 	/** 좋아요 싫어요 카운트 */
 	@RequestMapping(value="/selectVoteCnt.do")
 	public String selectVoteCnt(@ModelAttribute("VoteVO") VoteVO vvo, PostBoardVO vo, Model model) throws Exception {
+		//게시글당 Y/N
 		vvo.setPostNo(vo.getPostNo());
-		
+		//좋아요  
 		vvo.setVoteYn("Y");
 		int yCnt = voteService.selectLikeCnt(vvo);
 		model.addAttribute("yCnt", yCnt);
-		
+		//싫어요
 		vvo.setVoteYn("N");
 		int nCnt = voteService.selectHateCnt(vvo);
 		model.addAttribute("nCnt", nCnt);
-		
 		return "jsonView";
 		
 	}
@@ -282,7 +292,6 @@ public class PostBoardController {
 	@RequestMapping(value = "/selectLikeCnt.do")
 	public String selectLikeCnt(@ModelAttribute("VoteVO") VoteVO vvo, PostBoardVO vo, Model model) throws Exception {
 		vvo.setPostNo(vo.getPostNo());
-		//vvo.setVoteYn();
 		int yCnt = voteService.selectLikeCnt(vvo);
 		model.addAttribute("yCnt", yCnt);
 		return "jsonView";

@@ -14,6 +14,8 @@
 <title>게시판 개발</title>
 <script>
 	$(document).ready(function(){
+		
+		
 		//좋아요 버튼
 		$("#likePost").on("click", function(){
 			$("#frm #voteYn").val('Y');
@@ -31,6 +33,8 @@
 			var voteYn = $("#voteYn").val();
 			var voteKey = $("#voteKey").val();
 			var voteDate = $("#voteDate").val();
+			var yCnt;
+			var nCnt; 
 			
 			$.ajax({
 				type : "POST",
@@ -40,40 +44,45 @@
 					'voteYn' : voteYn
 				},
 				success : function(data){
-					$.ajax({
+					var promise = $.ajax({
 						type : "POST",
 						url : "./selectVoteCnt.do",
-						data : {
+						data : { //게시글 당 Y/N 세어줘야 하는 거니까 여기서도 같이 sql에 data로 보내줘야 함
 							'postNo' : postNo,
 							'voteYn' : voteYn
 						},
+						 async : false, //동기식
 						success : function(result){
-							alert(result.yCnt);
+						 	yCnt = result.yCnt;
+							nCnt = result.nCnt;
+							$("#likePost").html("좋아요(" + yCnt + ")");
+							$("#hatePost").html("싫어요(" + nCnt + ")"); 
 						},
 						error : function(){
 							alert("error");
 						}
-						
-					})
-					alert("투표 완료");
+					}); 
 				},
 				error : function(){
 					alert("ajax 실패");
 				}
 			});
 		}
+		
 	});
 </script>
 </head>
 <body>
+
 	<div align ="left" style="float:left;" id="postVote">
 		<div >
-		<input type="hidden" id="voteYn" name="voteYn">
+		<input type="hidden" id="voteYn" name="voteYn" >
 		<input type="hidden" id="voteKey" name="voteKey" value="">
 		<input type="hidden" id="voteDate" name="voteDate">
 			<c:if test="${p.originNo eq '' }">
-				<button type="button" class="btn btn-sm" id="likePost" >좋아요(<c:out value=""/>)</button>
-				<button type="button" class="btn btn-sm" id="hatePost" >싫어요(<c:out value=""/>)</button>	
+			<!-- value 값 지정할 때 객체 안에서 꺼낼 게 하나밖에 없음(cnt) -->
+				<button type="button" class="btn btn-sm" id="likePost" name="likePost">좋아요(<c:out value="${yCnt}"/>)</button>
+				<button type="button" class="btn btn-sm" id="hatePost" name="hatePost">싫어요(<c:out value="${nCnt}"/>)</button>	
 			</c:if>
 		</div>
 	</div>

@@ -69,9 +69,7 @@ public class VoteVO {
 		this.nCnt = nCnt;
 	}
 
-	public void setVoteYn(char c) {
-		
-	}
+
 
 	
 

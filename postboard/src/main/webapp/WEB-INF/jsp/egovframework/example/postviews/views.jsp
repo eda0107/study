@@ -64,9 +64,9 @@
 			reply = function(postNo){	
 				//a태그 클릭시 slideToggle처럼 움직이게
 				//data에 가져오는 건 SQL에서 조건절에 해당하는 컬럼값을 받아와야 함
-				if($('.reply_' + postNo).length > 0){
+				if($('.reply_' + postNo).length > 0){ //답글 리스트가 출력된 상태라면 다시 없애고
 					$('.reply_' + postNo).remove();
-				} else {
+				} else { //답글 리스트가 출력되지 않은 상태라면 출력하기
 					$.ajax({
 						type : "POST",
 						url : "replyList.do",
@@ -90,7 +90,7 @@
 								html +='<td align="center">' + data.replyList[i].postInsert + '</td>';
 								html +='<td align="center">' + data.replyList[i].postInsdt + '</td>';
 								html +='</tr>';
-								//고유한 postNo에 table tag 추가(아래쪽에/append 쓰면 옆에 붙는다)
+								//고유한 postNo에 table tag 추가(아래쪽에 넣기 위해 after // append 쓰면 옆에 붙는다)
 								$tr.after(html);
 						
 								console.log(data.replyList[i]);
@@ -99,7 +99,7 @@
 						error : function(request){
 							alert(request.responseText);
 							}
-							}); // AJAX END	
+							}); 
 				}
 			};	
 		
@@ -132,8 +132,6 @@
 						//211,332,331,
 						arr.push($(this).val());
 					});
-				
-					
 					/* var c = $("input[name='postNo']").val();
 					var a = $(".reply_" + postNo).length;
 					$.ajax({
@@ -255,7 +253,7 @@
 							<th class="text-center"></th>
 							<th class="text-center">No</th>
 							<th class="text-center">제목</th>
-							<th class="text-center">내용</th>
+							<!-- <th class="text-center">내용</th> -->
 							<th class="text-center">조회수</th>
 							<th class="text-center">작성자</th>
 							<th class="text-center">작성일자</th>
@@ -270,7 +268,7 @@
 										<c:if test="${result.cnt>0}"><a href="javascript:reply('${result.postNo}')" >[${result.cnt}]</a></c:if>
 									</span>
 								</td>
-								<td align="left"><c:out value="${result.strPostText }" escapeXml="false"/></td>
+								<%-- <td align="left"><c:out value="${result.strPostText }" escapeXml="false"/></td> --%>
 								<td align="center"><c:out value= "${result.postViews }" /></td>
 								<td align="center"><c:out value= "${result.postInsert }" /></td>
 								<td align="center"><c:out value= "${result.formattedDate }" /></td>
@@ -282,16 +280,6 @@
 				</table>
 			</div> <br>
 			<!--// List -->
-	
-	<!-- c:out value="${result.postText }" escapeXml="false"/> -->
-	<!-- 
-	[DB] - data type : blob => post_text  : &lt;p&gt;제목&lt;/p&gt;
-	[JSP] => <c:out value="${p.post_text }" escapeXml="false"/>
-	[view] => <p>222공지</p> 
-	 -->
-	
-	
-	
 	
 			<!-- 검색창, 등록 버튼 -->
 			<div id="" align="right">
