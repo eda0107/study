@@ -50,6 +50,7 @@
 	});	
 			
 	$(document).ready(function(){
+	
 		//페이징 관련 jQuery 함수
 		//attr로 사용자 정의 class의 속성값을 가져와 변수에 지정
 		//페이징 처리 함수
@@ -102,6 +103,12 @@
 							}); 
 				}
 			};	
+			
+		//로그인 버튼 클릭시 화면 이동
+		$("#loginBtn").on("click", function(){
+			window.location.href= "./login.do";
+			
+		});
 		
 		//검색 버튼 jQuery 함수
 		$("input[name=searchBtn]").on("click",function(){
@@ -197,6 +204,7 @@
 		
 			<!-- 타이틀 -->
 	       	<div id="title">
+	      	 	<p><button type="button" class="btn btn-link" id="loginBtn" style="float:right;">로그인</button></p>
 	       		<p><h2>전자정부프레임워크 게시판</h2></p>
 	       	</div><br>
         	<!-- // 타이틀 -->
@@ -235,7 +243,7 @@
 			
 				<span> 
 					<!-- a가 버튼처럼 활용되려면 a 태그 안에 role="button" 必 -->
-					<a class="btn btn-info" href="./registerView.do" role="button" style="position: relative; top: -34px;">등록</a>
+					<a class="btn btn-primary" href="./registerView.do" role="button" style="position: relative; top: -34px;">등록</a>
 				</span>
 				<span>
 					
@@ -308,7 +316,7 @@
 				
 				<span>
 					<!-- a가 버튼처럼 활용되려면 a 태그 안에 role="button" 必 -->
-					<a class="btn btn-info" href="./registerView.do" role="button" style="position: relative; top: -34px;">등록</a>
+					<a class="btn btn-primary" href="./registerView.do" role="button" style="position: relative; top: -34px;">등록</a>
 				</span>
 			</div><br>
 			<!-- //검색창, 등록 버튼 -->

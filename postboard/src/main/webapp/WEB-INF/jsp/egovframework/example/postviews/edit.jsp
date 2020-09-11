@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap-theme.min.css " />">
 <script src="<c:url value="/resources/js/jquery-3.5.1.min.js" />"></script>
-<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script><script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <script>
   tinymce.init({
@@ -66,7 +67,7 @@
 		<form name="frm" id="frm" method="post">
 			<div class="mb-3">
 				<label for="postTitle">제목</label> 
-				<input type="text" id="postNo" name="postNo" value="${p.postNo}" > 
+				<input type="hidden" id="postNo" name="postNo" value="${p.postNo}" > 
 				<input type="text" class="form-control" name="postTitle" id="postTitle" value="${p.postTitle}" readonly>
 			</div>
 			<br>
@@ -82,8 +83,8 @@
 		</form>
 		<br>
 		<div align="right">
-			<button type="button" class="btn btn-info" id="editBtn">수정</button>
-			<button type="button" class="btn btn-info" id="listBtn">목록</button>
+			<button type="button" class="btn btn-primary" id="editBtn">수정</button>
+			<button type="button" class="btn btn-default" id="listBtn">목록</button>
 		</div>
 	</div>
 

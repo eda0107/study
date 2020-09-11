@@ -92,8 +92,8 @@ $(document).ready(function(){
 		</form>
 		<br>
 		<div align="right">
-			<button type="button" class="btn btn-info" id="writeBtn">등록</button>
-			<button type="button" class="btn btn-info" id="listBtn">목록</button>
+			<button type="button" class="btn btn-primary" id="writeBtn">등록</button>
+			<button type="button" class="btn btn-default" id="listBtn">목록</button>
 		</div>
 	</div>
 	

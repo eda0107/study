@@ -211,11 +211,11 @@
 		<!-- 게시글 조회일 경우 답변, 수정, 삭제, 목록 버튼//답변 조회일 경우 수정, 목록 버튼만 구현 -->
 		<div align="right">
 			<c:if test="${p.originNo eq ''}" >  	
-				<button type="button" class="btn btn-info" id="replyBtn">답변</button>
-				<button type="button" class="btn btn-info" id="deleteBtn">삭제</button>
+				<button type="button" class="btn btn-primary" id="replyBtn">답변</button>
+				<button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
 			</c:if>	
-				<button type="button" class="btn btn-info" id="editBtn">수정</button>
-				<button type="button" class="btn btn-info" id="listBtn">목록</button>
+				<button type="button" class="btn btn-primary" id="editBtn">수정</button>
+				<button type="button" class="btn btn-default" id="listBtn">목록</button>
 		</div>
 		<!-- /게시글 조회일 경우 답변, 수정, 삭제, 목록 버튼//답변 조회일 경우 수정, 목록 버튼만 구현  -->
 		<!-- 게시글 조회일 경우 답글 list 출력 -->

@@ -56,8 +56,8 @@ public class PostBoardServiceImpl  extends EgovAbstractServiceImpl implements Po
 	
 	/** 조회수 카운트한다 */
 	@Override
-	public int updateCnt(PostBoardVO vo) throws Exception {
-		return postDAO.updateCnt(vo);
+	public int updateCnt(PostBoardVO postBoardVO) throws Exception {
+		return postDAO.updateCnt(postBoardVO);
 		
 	}
 	
