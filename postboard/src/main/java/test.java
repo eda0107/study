@@ -5,10 +5,10 @@ public class test {
 
 	public static void main(String[] args) {
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+	/*	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
 		String today = simpleDateFormat.format(date);
-		System.out.print(today);
+		System.out.print(today);*/
 		
 				
 	}

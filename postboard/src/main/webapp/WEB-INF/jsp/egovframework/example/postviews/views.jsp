@@ -86,14 +86,13 @@
 								html +='<td></td>';
 								html +='<td></td>';
 								html +='<td align="left"><a href="#" class="update" data="' + data.replyList[i].postNo +'">' + data.replyList[i].postTitle + '</a></td>';
-								html +='<td align="left">' + data.replyList[i].blobPostText + '</td>';
+								// html +='<td align="left">' + data.replyList[i].blobPostText + '</td>'; 
 								html += '<td></td>';
 								html +='<td align="center">' + data.replyList[i].postInsert + '</td>';
-								html +='<td align="center">' + data.replyList[i].postInsdt + '</td>';
+								html +='<td align="center">' + data.replyList[i].formattedDate + '</td>';
 								html +='</tr>';
 								//고유한 postNo에 table tag 추가(아래쪽에 넣기 위해 after // append 쓰면 옆에 붙는다)
 								$tr.after(html);
-						
 								console.log(data.replyList[i]);
 								}
 							},
@@ -134,8 +133,8 @@
 			if(conf){
 					 var arr = [];
 					 var postNo = '';
-					$("input[name='chk']:checked").each(function(){
-						postNo += $(this).val() + ',';
+					$("input[name='chk']:checked").each(function(){ //선택자 각각에 함수 실행
+						postNo += $(this).val() + ','; 
 						//211,332,331,
 						arr.push($(this).val());
 					});
@@ -219,12 +218,12 @@
 			                     <select id="searchCondition" name="searchCondition" class="form-control" style="width:80px;">
 			                     	  <option selected value="0" <c:out value="${PostBoardVO.searchCondition eq '0' ? 'selected' : ''}" />>전체</option>
 									  <option value="1" <c:out value="${PostBoardVO.searchCondition eq '1' ? 'selected' : ''}" /> >제목</option>
-									  <option value="2" <c:out value="${PostBoardVO.searchCondition eq '2' ? 'selected' : ''}" /> >내용</option>
+									<%--   <option value="2" <c:out value="${PostBoardVO.searchCondition eq '2' ? 'selected' : ''}" /> >내용</option> --%>
 									  <option value="3" <c:out value="${PostBoardVO.searchCondition eq '3' ? 'selected' : ''}" /> >작성자</option>
 								</select>
 			                </div>
 			                <!-- currentPage 넘기기 위해서 hidden으로 넘겨줌 -->
-			           		<input type="hidden" id="pageIndex" name="pageIndex" value="${PostBoardVO.pageIndex }" > 
+			           		<input type="hidden" id="pageIndex" name="pageIndex" value="${paginationInfo.currentPageNo}" > 
 			           		<!-- postNo 넘기기 위한 input value는 위에서 jQuery 태그가 넣어줄 것-->
 			           		<input type="hidden" id="postNo" name="postNo" value="" > 
 			           		
@@ -244,9 +243,6 @@
 				<span> 
 					<!-- a가 버튼처럼 활용되려면 a 태그 안에 role="button" 必 -->
 					<a class="btn btn-primary" href="./registerView.do" role="button" style="position: relative; top: -34px;">등록</a>
-				</span>
-				<span>
-					
 				</span>
 			</div>
 			<!-- //검색창, 등록 버튼 -->

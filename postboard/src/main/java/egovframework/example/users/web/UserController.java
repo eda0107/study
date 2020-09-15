@@ -76,16 +76,14 @@ public class UserController {
 		userId = decryptRsa(privateKey, userId);
 		userPw = decryptRsa(privateKey, userPw);
 
-		//sha-512 암호화 (+salt)
-		
+		//sha-512 암호화
 		String desPw = userPw; //암호화에 사용할 값
-		MessageDigest md = MessageDigest.getInstance("SHA-512"); //sha-512 알고리즘 사용
+		MessageDigest md = MessageDigest.getInstance("SHA-512"); //sha-512 알고리즘 사용하여 인스턴스 생성
 		md.reset(); //인스턴스 초기화
-		md.update(desPw.getBytes("utf8")); //암호화에 사용할 값을 바이트 코드로 변환해서 인스턴스에 업데이터
+		md.update(desPw.getBytes("utf8")); //암호화에 사용할 값을 문자열 바이트로 변환해서 인스턴스에 업데이트
 		
 		desPw = String.format("%0128x", new BigInteger(1, md.digest())); //128비트로 들어감
-		uvo.setUserPw(desPw);
-		
+		uvo.setUserPw(desPw); //암호화 한 비밀번호를 세팅해서 insert
 		userService.insertUser(uvo);
 		return "jsonView";
 		
@@ -99,15 +97,15 @@ public class UserController {
 	 * @throws Exception
 	 */
 	private String decryptRsa(PrivateKey privateKey, String securedValue) throws Exception{
-		 Cipher cipher = Cipher.getInstance(UserController.RSA_INSTANCE);
+		 Cipher cipher = Cipher.getInstance(UserController.RSA_INSTANCE); //객체 생성
 		 if(privateKey == null) { 
 			 throw new RuntimeException("암호화 비밀키 정보가 없습니다.");
 		 	}
 		 
 		 byte[] encrypteBytes = hexToByteArray(securedValue);
-		 cipher.init(Cipher.DECRYPT_MODE, privateKey);
-		 byte[] decrypteBytes = cipher.doFinal(encrypteBytes);
-		 String decrypedStr = new String(decrypteBytes, "UTF-8");
+		 cipher.init(Cipher.DECRYPT_MODE, privateKey); 
+		 byte[] decrypteBytes = cipher.doFinal(encrypteBytes); 
+		 String decrypedStr = new String(decrypteBytes, "UTF-8"); 
 		 return decrypedStr;
 		
 	}

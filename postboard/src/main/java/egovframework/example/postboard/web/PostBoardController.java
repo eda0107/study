@@ -83,13 +83,15 @@ public class PostBoardController {
 		model.addAttribute("postList", postList);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "postviews/views";
+		return "postviews/list";
+		//return "postviews/views";
 	}
 
 	/** 글 등록화면 */
 	@RequestMapping(value = "/registerView.do")
 	public String registerView() throws Exception {
-		return "postviews/register";
+		return "postviews/reg";
+		//return "postviews/register";
 	}
 
 	/** 글을 등록한다 */
@@ -187,7 +189,7 @@ public class PostBoardController {
 		// [1] 체크된 게시글에서 답글 유무 확인
 		for (String i : arr) {
 			vo.setPostNo(i);
-			int p = postService.getReplyCnt(vo); // resultType이 int
+			int p = postService.getReplyCnt(vo); // resultType이 int, p는 답글 갯수
 			// [2] 답글 있으면 삭제 불가 답글 없으면 삭제
 			if (p > 0) {
 				model.addAttribute("message", "exist"); // success에서 call

@@ -72,7 +72,7 @@
 		SELECT * FROM 
 		(
 		SELECT ROWNUM as RN, A.*
-		FROM ( 	SELECT Z.POST_NO, Z.POST_TITLE, Z.POST_TEXT, Z.POST_VIEWS, Z.POST_INSERT, Z.POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD, 
+		FROM ( 	SELECT Z.POST_NO, Z.POST_TITLE, Z.POST_VIEWS, Z.POST_INSERT, Z.POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD, 
 						(SELECT COUNT(1) FROM POST_BOARD WHERE ORIGIN_NO = Z.POST_NO) AS CNT
 				FROM POST_BOARD Z
 				WHERE 1=1
@@ -81,14 +81,14 @@
 			        <choose>
 			            <when test="searchCondition == 0">
 							AND	UPPER(POST_TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
-							OR	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+							<!-- OR	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%' -->
 							OR	UPPER(POST_INSERT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
 						</when>
 			            <when test="searchCondition == 1">
 							AND	UPPER(POST_TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
 						</when>
 						<when test="searchCondition == 2">
-							AND	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+							<!-- AND	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%' -->
 						</when>
 						<when test="searchCondition == 3">
 							AND	UPPER(POST_INSERT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
@@ -100,7 +100,6 @@
 		) B
 		WHERE B.RN BETWEEN #{firstIndex} AND #{lastIndex}
 		ORDER BY B.RN ASC
-
 	</select>
 	
 	<!-- 게시글 갯수 cnt -->

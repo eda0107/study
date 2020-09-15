@@ -24,8 +24,6 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 			$("#editBtn").on("click", function() {
-				
-				
 				var postText = tinymce.activeEditor.getContent();
 				$("#postText").val(postText);
 				

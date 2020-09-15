@@ -49,6 +49,7 @@ public class PostBoardVO extends PostBoardDefaultVO {
 	
 	private int groupLayer;
 
+	/** 답글 갯수 */
 	private String cnt;
 	
 	private String formattedDate;

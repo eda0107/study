@@ -44,6 +44,7 @@
 					'voteYn' : voteYn
 				},
 				success : function(data){
+					
 					var promise = $.ajax({
 						type : "POST",
 						url : "./selectVoteCnt.do",
