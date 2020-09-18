@@ -98,7 +98,7 @@
 			frm.submit();
 	 	}) 
  */
-	 	 	
+	 	 //삭제	
 	 	var $frm = $("#frm").serialize();
 		$("#deleteBtn").on("click", function(){
 			var c = $("input[name='postNo']").val();
@@ -126,8 +126,7 @@
 				
 		}); 
 		
-
-	
+		//댓글 등록
 		$("#cmtBtn").on("click", function(){
 		
 			var postNo = $("#postNo").val();

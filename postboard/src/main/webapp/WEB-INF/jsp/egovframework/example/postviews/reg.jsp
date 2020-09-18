@@ -1,29 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>게시판 개발</title>
-<script src="<c:url value="/resources/js/jquery-3.5.1.min.js" />"></script>
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<%-- <script src="<c:url value="/resources/js/jquery-3.5.1.min.js" />"></script> --%>
+<script src="<c:url value="/resources/tinymce/tinymce.min.js" />"></script>
+<!-- 4xnkl2dz9403v8le67mhtrr5pz4b0lxtvc715w84p3tgyjk1 -->
 <script>
-  tinymce.init({
-    selector: 'textarea#blobPostText',
-    menubar: false
-  });
+	 
 </script>
 <script>
 	$(document).ready(function(){
 		
+		tinymce.init({
+		    selector: 'textarea#blobPostText',
+		    menubar: false
+		  }); 
+		
 		$("#writeBtn").on("click", function(){
-			
 			var postTitle = $("#postTitle").val(); //val(): form 양식의 값을 가져오거나 설정하는 메소드
 			var postText = tinymce.activeEditor.getContent(); //에디터의 콘텐츠 갖고오기
 			var postInsert = $("#postInsert").val(); 
 			//var blobPostText = $("#blobPostText").val(postText); 
 			
 			var regForm = $("#regForm").serialize();
-			//console.log(regForm);
+			console.log(regForm);
 			console.log(blobPostText);
 			if(postTitle == ""){
 				alert("제목을 입력하세요.");
@@ -61,7 +68,7 @@
 </script>
 </head>
 <body>
-	<div style="padding: 40px;">
+	<div>
 		<h2>게시물 등록</h2>
 		<br>
 		<form name="regForm" id="regForm" method="post">
@@ -70,18 +77,18 @@
 				<label for="postTitle">제목</label>
 				<input type="text" name="postTitle" id="postTitle" placeholder="제목을 입력하세요.">
 			</div>
-			<br>
+			<p></p>
 			<div>
 				<label for="blobPostText">내용</label>
 				<textarea rows="5" name="blobPostText" id="blobPostText"></textarea>
 			</div>
-			<br>
+			<p></p>
 			<div>
 				<label for="postInsert">작성자</label>
-				<input type="text" name="postInsert" id="postInsert">
+				<input type="text" name="postInsert" id="postInsert" placeholder="작성자를 입력하세요.">
 			</div>
 		</form>
-		<br>
+		<p></p>
 		
 		<div align="right">
 			<button type="button" id="writeBtn">등록</button>

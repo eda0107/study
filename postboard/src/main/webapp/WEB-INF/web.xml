@@ -27,11 +27,12 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
     
+    <!-- Context parameter(전역 파라미터) -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:egovframework/spring/context-*.xml</param-value>
 	</context-param>
-    
+    <!-- Context Loader Listener: 내부적으로 부모 객체(ContextLoader-Root Application Context:DB에 접근하기 위한 객체) 실행 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -48,9 +49,25 @@
     
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		 <url-pattern>*.do</url-pattern>
+ 	<!-- 	<url-pattern>*.action</url-pattern> -->
 	</servlet-mapping>
-    
+	
+	<servlet>
+		<servlet-name>action2</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/egovframework/springmvc/dispatcher-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>action2</servlet-name>
+		<url-pattern>*.action</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

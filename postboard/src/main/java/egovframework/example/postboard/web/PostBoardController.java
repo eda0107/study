@@ -101,7 +101,6 @@ public class PostBoardController {
 		vo.setPostText(vo.getBlobPostText().getBytes());
 		postService.insertPost(vo);
 		return "jsonView";
-		// return "redirect:/pBoardList.do";
 	}
 
 	/** 글 수정화면 */
@@ -109,7 +108,8 @@ public class PostBoardController {
 	public String updateView(@ModelAttribute("PostBoardVO") PostBoardVO vo, Model model) throws Exception {
 		PostBoardVO p = postService.selectPost(vo);
 		model.addAttribute("p", p);
-		return "postviews/edit";
+		//return "postviews/edit";
+		return "postviews/mod";
 	}
 
 	/** 게시글, 답글을 조회한다 */
@@ -124,7 +124,7 @@ public class PostBoardController {
 		model.addAttribute("p", p);
 
 		// 게시글,답글일 때 로직 다르게 -> vo가 아니라 p를 가져와야함: p는 조회하면서 객체가 생성된 상태(=>postNo 값이 들어간 상태)
-		if ("".equals(p.getOriginNo())) { // 게시글일때 => p.postNo는 有 p.originNo는 無
+		if ("".equals(p.getOriginNo()) || p.getOriginNo() == null) { // 게시글일때 => p.postNo는 有 p.originNo는 無
 			List<?> replyList = postService.selectReplyList(vo);
 			model.addAttribute("replyList", replyList);
 			
@@ -153,16 +153,16 @@ public class PostBoardController {
 		List<CommentsVO> commentsList = commentsService.selectCommentsList(cvo);
 		model.addAttribute("commentsList", commentsList);
 
-		return "postviews/update";
+		return "postviews/content";
+		//return "postviews/update";
 	}
 
 	/** 글을 수정한다 */
 	@RequestMapping(value = "/update.do")
 	@ResponseBody
-	public void update(@ModelAttribute("PostBoardVO") PostBoardVO vo, BindingResult bindingResult, Model model,
-			SessionStatus status) throws Exception {
+	public void update(@ModelAttribute("PostBoardVO") PostBoardVO vo, BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
+		vo.setPostText(vo.getBlobPostText().getBytes());
 		postService.updatePost(vo);
-		// return "redirect:/pBoardList.do";
 	}
 
 	/*	*//** 글을 삭제한다-단순 삭제 */
@@ -308,5 +308,11 @@ public class PostBoardController {
 		model.addAttribute("nCnt", nCnt);
 		return "jsonView";
 	}
+	
+	/*@RequestMapping(value="/ClassTest.action")
+	public String classTest() throws Exception {
+		return "test";
+		
+	}*/
 
 }

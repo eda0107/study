@@ -26,12 +26,6 @@
         </property>
     </bean>
     
-  <!-- 시자ㅣㄱ -->
-
-
-  <!-- 정료 -->
-  	
-    
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
     <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
@@ -53,11 +47,16 @@
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
 	    p:prefix="/WEB-INF/jsp/egovframework/example/" p:suffix=".jsp"/>
+	   
+	<!-- JsonView -->    
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 		<property name="contentType" value="application/json;charset=UTF-8"/>
 	</bean>
+	
 	<bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0">
    	</bean>
+	
+	
 	
     <!-- For Pagination Tag -->
     <bean id="imageRenderer" class="egovframework.example.cmmn.web.EgovImgPaginationRenderer"/>
@@ -71,7 +70,8 @@
     </bean>
 	<!-- /For Pagination Tag -->
 
-    <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
-    
-
+    <mvc:view-controller path="/postboard/cmmn/validator.do" view-name="cmmn/validator"/>
+<!--  	<mvc:view-controller path="/replyView.do" view-name="postviews/reply"/>
+	 <mvc:view-controller path="/registerView.do" view-name="postviews/register"/>
+	<mvc:view-controller path="/editView.do" view-name="postviews/edit"/> -->	
 </beans>

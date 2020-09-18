@@ -36,7 +36,7 @@
 	<!-- 게시글 수정 -->
 	<update id="updatePost" parameterType="egovframework.example.postboard.service.PostBoardVO">
 		UPDATE POST_BOARD
-		SET POST_TEXT = utl_raw.cast_to_raw(#{postText})
+		SET POST_TEXT = #{postText}
 		WHERE POST_NO = #{postNo}
 	</update>
 	
