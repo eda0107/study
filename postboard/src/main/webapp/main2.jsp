@@ -10,7 +10,7 @@
 	$(document).ready(function(){
 		 
 		//select box안에 option을 바꿀 때마다 이벤트 발생
-		$('select').on('change', function(){
+		/* $('select').on('change', function(){
 	
 			 $.ajax({
 		        type : "POST",
@@ -28,7 +28,7 @@
 		        
 		       });	
 		  });
-		
+		 */
 		//포탈명을 클릭하면 포탈사이트를 팝업
 		
 		//동적으로 생성된 태그에 이벤트를 주는 것
@@ -39,6 +39,22 @@
 	 	//	window.open(call); 
 	 	//}); */
 	 	
+	 	func = function(obj){ // == this
+			$(this).val(this);
+	 		$.ajax({
+	 			type: "POST",
+	 			url : "data2.jsp",
+	 			data : {
+	 				selectPortal : 
+	 			}, 
+	 			success : function(data){
+	 				$("#content").html(data);
+	 			},
+	 			error : function(){
+	 				alert("통신 실패");
+	 			}
+	 		})
+	 	}
 	});
 		
 		
@@ -59,11 +75,17 @@
 <body>
 
 <div>
-	<select>
+	<select onchange="func(this)">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+	</select>
+	<select onchange="func(this)">
 		<option value="daum">daum</option>
 		<option value="naver">naver</option>
 		<option value="nate">nate</option>
 	</select>
+
 </div>
 <div id="content">
 </div>
