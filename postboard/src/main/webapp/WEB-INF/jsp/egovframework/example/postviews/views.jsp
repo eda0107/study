@@ -203,7 +203,7 @@
 		
 			<!-- 타이틀 -->
 	       	<div id="title">
-	      	 	<p><button type="button" class="btn btn-link" id="loginBtn" style="float:right;">로그인</button></p>
+	      	 	<!-- <p><button type="button" class="btn btn-link" id="loginBtn" style="float:right;">로그인</button></p> -->
 	       		<p><h2>전자정부프레임워크 게시판</h2></p>
 	       	</div><br>
         	<!-- // 타이틀 -->

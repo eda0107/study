@@ -70,13 +70,11 @@
 	<!-- 게시글 목록 조회 -->
 	<select id="selectPostList" parameterType="egovframework.example.postboard.service.PostBoardVO"  resultMap="postboard">
 		SELECT * FROM 
-		(
-		SELECT ROWNUM as RN, A.*
-		FROM ( 	SELECT Z.POST_NO, Z.POST_TITLE, Z.POST_VIEWS, Z.POST_INSERT, Z.POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD, 
-						(SELECT COUNT(1) FROM POST_BOARD WHERE ORIGIN_NO = Z.POST_NO) AS CNT
-				FROM POST_BOARD Z
-				WHERE 1=1
-					AND ORIGIN_NO IS NULL
+		( SELECT ROWNUM as RN, A.*
+		  FROM ( SELECT Z.POST_NO, Z.POST_TITLE, Z.POST_VIEWS, Z.POST_INSERT, Z.POST_INSDT, Z.ORIGIN_NO, Z.GROUP_ORD, 
+					(SELECT COUNT(1) FROM POST_BOARD WHERE ORIGIN_NO = Z.POST_NO) AS CNT
+				     FROM POST_BOARD Z
+				     WHERE 1=1 AND ORIGIN_NO IS NULL
 				<if test="searchKeyword != null and searchKeyword != ''">
 			        <choose>
 			            <when test="searchCondition == 0">
@@ -88,16 +86,16 @@
 							AND	UPPER(POST_TITLE) LIKE '%' || UPPER(#{searchKeyword}) || '%'
 						</when>
 						<when test="searchCondition == 2">
-							<!-- AND	UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%' -->
+							<!-- AND UPPER(POST_TEXT) LIKE '%' || UPPER(#{searchKeyword}) || '%' -->
 						</when>
 						<when test="searchCondition == 3">
 							AND	UPPER(POST_INSERT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
 						</when>
 					</choose>
 				</if>
-				ORDER BY POST_INSDT DESC
-				) A
-		) B
+				     ORDER BY POST_INSDT DESC
+				     ) A
+		        ) B
 		WHERE B.RN BETWEEN #{firstIndex} AND #{lastIndex}
 		ORDER BY B.RN ASC
 	</select>

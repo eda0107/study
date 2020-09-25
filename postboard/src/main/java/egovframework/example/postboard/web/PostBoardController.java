@@ -83,15 +83,15 @@ public class PostBoardController {
 		model.addAttribute("postList", postList);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "postviews/list";
-		//return "postviews/views";
+		//return "postviews/list";
+		return "postviews/views";
 	}
 
 	/** 글 등록화면 */
 	@RequestMapping(value = "/registerView.do")
 	public String registerView() throws Exception {
-		return "postviews/reg";
-		//return "postviews/register";
+		//return "postviews/reg";
+		return "postviews/register";
 	}
 
 	/** 글을 등록한다 */
@@ -108,8 +108,8 @@ public class PostBoardController {
 	public String updateView(@ModelAttribute("PostBoardVO") PostBoardVO vo, Model model) throws Exception {
 		PostBoardVO p = postService.selectPost(vo);
 		model.addAttribute("p", p);
-		//return "postviews/edit";
-		return "postviews/mod";
+		return "postviews/edit";
+		//return "postviews/mod";
 	}
 
 	/** 게시글, 답글을 조회한다 */
@@ -153,8 +153,8 @@ public class PostBoardController {
 		List<CommentsVO> commentsList = commentsService.selectCommentsList(cvo);
 		model.addAttribute("commentsList", commentsList);
 
-		return "postviews/content";
-		//return "postviews/update";
+		//return "postviews/content";
+		return "postviews/update";
 	}
 
 	/** 글을 수정한다 */
@@ -309,10 +309,6 @@ public class PostBoardController {
 		return "jsonView";
 	}
 	
-	/*@RequestMapping(value="/ClassTest.action")
-	public String classTest() throws Exception {
-		return "test";
-		
-	}*/
+
 
 }

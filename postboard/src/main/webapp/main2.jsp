@@ -40,12 +40,12 @@
 	 	//}); */
 	 	
 	 	func = function(obj){ // == this
-			$(this).val(this);
+			var selectOption = $(obj).val();
 	 		$.ajax({
 	 			type: "POST",
 	 			url : "data2.jsp",
 	 			data : {
-	 				selectPortal : 
+	 				selectPortal : selectOption //obj.value: javascript
 	 			}, 
 	 			success : function(data){
 	 				$("#content").html(data);
@@ -75,11 +75,6 @@
 <body>
 
 <div>
-	<select onchange="func(this)">
-		<option value="1">1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-	</select>
 	<select onchange="func(this)">
 		<option value="daum">daum</option>
 		<option value="naver">naver</option>

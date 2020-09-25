@@ -56,6 +56,6 @@
             <entry key="text" value-ref="textRenderer"/>
         </map>
     </property>
-</bean>
+	</bean>
 	 
 </beans>
